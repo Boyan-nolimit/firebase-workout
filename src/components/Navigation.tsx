@@ -18,7 +18,7 @@ export const Navigation = ({ activeTab }: NavigationProps) => {
         href={"/"}
         className={`${
           activeTab === "workouts" && "border-b-4 border-blue-500"
-        }  p-4 bg-gray-100 flex flex-1 justify-center`}
+        }  p-4 bg-white flex flex-1 justify-center`}
       >
         <Image src={dumbbell} alt={"workouts page"} />
       </Link>
@@ -26,7 +26,7 @@ export const Navigation = ({ activeTab }: NavigationProps) => {
         href={"/exercises"}
         className={`${
           activeTab === "exercises" && "border-b-4 border-blue-500"
-        } p-4 bg-gray-100 flex flex-1 justify-center`}
+        } p-4 bg-white flex flex-1 justify-center`}
       >
         <Image src={list} alt={"exercises page"} />
       </Link>

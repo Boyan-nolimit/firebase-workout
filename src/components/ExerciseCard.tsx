@@ -15,7 +15,7 @@ const getOutlineColor = (primaryMuscle: string) => {
   }
 };
 
-interface ExerciseCardProps {
+export interface ExerciseCardProps {
   name: string;
   img: string;
   description: string;
@@ -29,9 +29,9 @@ export const ExerciseCard = ({
   primaryMuscle,
 }: ExerciseCardProps) => {
   return (
-    <div className={"flex gap-3 my-2.5"}>
+    <div className={"flex gap-3 my-2"}>
       <div
-        className={`p-0.5 flex items-center justify-center rounded-lg border-[3px] ${getOutlineColor(
+        className={`p-0.5 bg-white flex items-center justify-center rounded-lg border-[2.5px] ${getOutlineColor(
           primaryMuscle,
         )}`}
       >

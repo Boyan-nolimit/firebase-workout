@@ -46,8 +46,8 @@ export default function Exercises() {
         </div>
 
         <Link
-          className="fixed bottom-[70px] right-5 bg-blue-500 hover:bg-blue-700 text-white font-medium p-3 rounded-lg drop-shadow"
-          href={"/add-exercise"}
+          className="fixed bottom-[30px] left-[50%] -translate-x-1/2 bg-blue-500 hover:bg-blue-700 text-white font-medium p-3 rounded-lg shadow z-20"
+          href={"/create-exercise"}
         >
           <Image src={add} alt={"add exercise icon"} height={36} width={36} />
         </Link>
