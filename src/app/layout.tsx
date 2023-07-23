@@ -23,7 +23,7 @@ export default function RootLayout({
           <div className={"bg-black flex justify-center"}>
             <div
               className={
-                "bg-white max-w-[420px] w-full flex flex-1 min-h-screen flex-col p-5"
+                "bg-white max-w-[420px] w-full flex flex-1 min-h-screen flex-col p-5 bg-gray-50"
               }
             >
               {children}
