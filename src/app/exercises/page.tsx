@@ -3,6 +3,8 @@ import { ExerciseCard } from "@/components/ExerciseCard";
 import benchPress from "../../../public/bench-press.png";
 import exerciseList from "../../initialExerciseList.json";
 import { CategoryButton } from "@/components/CategoryButton";
+import Image from "next/image";
+import list from "../../../public/format_list_bulleted.svg";
 
 const categories = ["Arms", "Back", "Chest", "Legs", "Shoulders"];
 
@@ -17,14 +19,17 @@ export default function Exercises() {
   return (
     <main className="flex flex-1 min-h-screen flex-col p-5">
       <Navigation activeTab={"exercises"} />
-      <h1 className="text-xl font-bold pt-14 mb-2">Exercise list</h1>
+      <div className={"flex gap-3 my-4"}>
+        <Image src={list} alt={"list icon"} />
+        <h1 className="text-xl font-semibold ">Exercise list</h1>
+      </div>
       <input className={"bg-gray-100 p-4 rounded-lg"} placeholder={"Search"} />
       <div className={"flex justify-around my-5"}>
         {categories.map((category) => (
           <CategoryButton key={category} name={category} />
         ))}
       </div>
-      <div className={"flex flex-col pb-16"}>
+      <div className={"flex flex-col pb-28"}>
         {sortedExerciseList.map((exercise) => (
           <ExerciseCard
             key={exercise.name}
@@ -36,7 +41,7 @@ export default function Exercises() {
         ))}
       </div>
 
-      <button className="fixed bottom-5 w-[380px] bg-blue-500 hover:bg-blue-700 text-white font-medium p-4 rounded-lg drop-shadow-xl">
+      <button className="fixed bottom-[70px] w-[380px] bg-blue-500 hover:bg-blue-700 text-white font-medium p-4 rounded-lg drop-shadow-xl">
         Add Exercise
       </button>
     </main>

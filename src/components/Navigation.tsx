@@ -11,7 +11,7 @@ export const Navigation = ({ activeTab }: NavigationProps) => {
   return (
     <div
       className={
-        "flex flex-1 w-full max-w-[420px] self-center justify-around fixed -mt-5"
+        "flex flex-1 w-full max-w-[420px] self-center justify-around fixed bottom-0 bg-gray-100 z-10"
       }
     >
       <Link
