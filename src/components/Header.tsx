@@ -3,17 +3,32 @@ import React from "react";
 import Image from "next/image";
 import { UserAuth } from "../../firebase/authContext";
 import arrowBack from "../../public/arrow_back.svg";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 interface TitleProps {
   name: string;
   icon?: string;
+  hideProfile?: boolean;
 }
-export const Header = ({ name, icon }: TitleProps) => {
+export const Header = ({ name, icon, hideProfile }: TitleProps) => {
   const { user } = UserAuth();
   const router = useRouter();
-  const path = usePathname();
+
+  const showProfile = () => {
+    if (user && !hideProfile) {
+      return (
+        <Link href={"/profile"}>
+          <img
+            src={user.photoURL}
+            alt={"user profile"}
+            className={"rounded-full h-10 w-10"}
+          />
+        </Link>
+      );
+    }
+  };
+
   return (
     <div
       className={
@@ -23,22 +38,14 @@ export const Header = ({ name, icon }: TitleProps) => {
       <div className={"flex flex-1 gap-2.5"}>
         {!icon ? (
           <button onClick={() => router.back()}>
-            <Image src={arrowBack} alt={"list icon"} height={22} width={22} />
+            <Image src={arrowBack} alt={"list icon"} height={20} width={20} />
           </button>
         ) : (
           <Image src={icon} alt={"list icon"} height={22} width={22} />
         )}
         <h1 className="text-xl font-semibold">{name}</h1>
       </div>
-      {user && path !== "/profile" && (
-        <Link href={"/profile"}>
-          <img
-            src={user.photoURL}
-            alt={"user profile"}
-            className={"rounded-full h-10 w-10"}
-          />
-        </Link>
-      )}
+      {showProfile()}
     </div>
   );
 };

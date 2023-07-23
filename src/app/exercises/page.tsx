@@ -2,9 +2,12 @@ import { Navigation } from "@/components/Navigation";
 import { ExerciseCard } from "@/components/ExerciseCard";
 import benchPress from "../../../public/bench-press.png";
 import exerciseList from "../../initialExerciseList.json";
+import add from "../../../public/add.svg";
 import { CategoryButton } from "@/components/CategoryButton";
 import list from "../../../public/format_list_bulleted.svg";
 import { Header } from "@/components/Header";
+import Image from "next/image";
+import Link from "next/link";
 
 const categories = ["Arms", "Back", "Chest", "Legs", "Shoulders"];
 
@@ -25,12 +28,12 @@ export default function Exercises() {
           className={"bg-gray-100 p-4 rounded-lg w-full"}
           placeholder={"Search"}
         />
-        <div className={"flex justify-around my-5"}>
+        <div className={"flex justify-around mt-5 mb-3"}>
           {categories.map((category) => (
             <CategoryButton key={category} name={category} />
           ))}
         </div>
-        <div className={"flex flex-col pb-28"}>
+        <div className={"flex flex-col"}>
           {sortedExerciseList.map((exercise) => (
             <ExerciseCard
               key={exercise.name}
@@ -42,9 +45,12 @@ export default function Exercises() {
           ))}
         </div>
 
-        <button className="fixed bottom-[70px] w-[380px] bg-blue-500 hover:bg-blue-700 text-white font-medium p-4 rounded-lg drop-shadow-xl">
-          Add Exercise
-        </button>
+        <Link
+          className="fixed bottom-[70px] right-[60px] bg-blue-500 hover:bg-blue-700 text-white font-medium p-3 rounded-lg drop-shadow"
+          href={"/add-exercise"}
+        >
+          <Image src={add} alt={"add exercise icon"} height={36} width={36} />
+        </Link>
       </div>
     </main>
   );

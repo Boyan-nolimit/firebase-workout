@@ -8,7 +8,7 @@ export default function Profile() {
 
   return (
     <main>
-      <Header name={"Profile"} />
+      <Header name={"Profile"} hideProfile />
       <div className={"py-16 flex flex-col gap-8"}>
         {user && (
           <div className="flex flex-col items-center justify-center gap-6">
