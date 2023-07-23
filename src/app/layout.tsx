@@ -21,7 +21,13 @@ export default function RootLayout({
       <body className={inter.className}>
         <AuthContextProvider>
           <div className={"bg-black flex justify-center"}>
-            <div className={"bg-white max-w-[420px] w-full"}>{children}</div>
+            <div
+              className={
+                "bg-white max-w-[420px] w-full flex flex-1 min-h-screen flex-col p-5"
+              }
+            >
+              {children}
+            </div>
           </div>
         </AuthContextProvider>
       </body>

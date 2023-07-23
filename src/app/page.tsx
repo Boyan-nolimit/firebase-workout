@@ -11,9 +11,11 @@ import {
 import { useCollection } from "react-firebase-hooks/firestore";
 import { app, db } from "../../firebase/firebaseApp";
 import { Navigation } from "@/components/Navigation";
+import { Header } from "@/components/Header";
+import exercise from "../../public/exercise.svg";
 
 export default function Home() {
-  const { user, logOut } = UserAuth();
+  const { user } = UserAuth();
 
   const [value, loading, error] = useCollection(
     collection(getFirestore(app), "exercises"),
@@ -40,36 +42,19 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-5">
+    <main>
       <Navigation activeTab={"workouts"} />
-      <h1 className="text-6xl font-bold text-center">HOME SCREEN</h1>
-      {user && (
-        <div className="flex flex-col items-center justify-center gap-6">
-          <h2 className="text-2xl font-bold text-center">Welcome</h2>
-          <img
-            className="w-24 h-24 rounded-full"
-            src={user.photoURL}
-            alt={"user"}
-          />
-          <h3 className="text-xl font-bold text-center">{user.displayName}</h3>
-        </div>
-      )}
+      <Header name={"Workouts"} icon={exercise.src} />
+      <div className={"py-16 flex flex-col"}>
+        <button onClick={addExercise}>Add Data</button>
+        <button onClick={updateExercise}>Update Data</button>
 
-      <button onClick={addExercise}>Add Data</button>
-      <button onClick={updateExercise}>Update Data</button>
-
-      {user ? (
-        <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          onClick={logOut}
-        >
-          Log Out
-        </button>
-      ) : (
-        <Link href={"/login"} className={"text-bold"}>
-          Go to Log in
-        </Link>
-      )}
+        {!user && (
+          <Link href={"/login"} className={"text-bold"}>
+            Go to Log in
+          </Link>
+        )}
+      </div>
     </main>
   );
 }
