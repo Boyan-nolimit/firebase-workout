@@ -20,14 +20,6 @@ const categories = ["Arms", "Back", "Chest", "Legs", "Shoulders"];
 export default function Exercises() {
   const { user } = UserAuth();
 
-  const [value, loading, error] = useCollection(
-    collection(getFirestore(app), `users/${user.uid}/exercises`),
-    {},
-  );
-
-  const exercises: any = value?.docs.map((doc) => doc.data());
-  console.log(exercises);
-
   return (
     <main>
       <Navigation activeTab={"exercises"} />
