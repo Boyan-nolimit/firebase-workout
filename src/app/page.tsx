@@ -10,6 +10,7 @@ import {
 } from "@firebase/firestore";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { app, db } from "../../firebase/firebaseApp";
+import { Navigation } from "@/components/Navigation";
 
 export default function Home() {
   const { user, logOut } = UserAuth();
@@ -40,6 +41,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-5">
+      <Navigation activeTab={"workouts"} />
       <h1 className="text-6xl font-bold text-center">HOME SCREEN</h1>
       {user && (
         <div className="flex flex-col items-center justify-center gap-6">
