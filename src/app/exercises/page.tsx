@@ -1,3 +1,4 @@
+"use client";
 import { Navigation } from "@/components/Navigation";
 import { ExerciseCard } from "@/components/ExerciseCard";
 import benchPress from "../../../public/bench-press.png";
@@ -8,16 +9,24 @@ import list from "../../../public/format_list_bulleted.svg";
 import { Header } from "@/components/Header";
 import Image from "next/image";
 import Link from "next/link";
+import { useCollection } from "react-firebase-hooks/firestore";
+import { collection, getFirestore } from "@firebase/firestore";
+import { app } from "../../../firebase/firebaseApp";
+import { UserAuth } from "../../../firebase/authContext";
+import { useEffect, useState } from "react";
 
 const categories = ["Arms", "Back", "Chest", "Legs", "Shoulders"];
 
 export default function Exercises() {
-  const sortedExerciseList = exerciseList.sort((a, b) => {
-    if (a.primaryMuscle < b.primaryMuscle) {
-      return -1;
-    }
-    return 1;
-  });
+  const { user } = UserAuth();
+
+  const [value, loading, error] = useCollection(
+    collection(getFirestore(app), `users/${user.uid}/exercises`),
+    {},
+  );
+
+  const exercises: any = value?.docs.map((doc) => doc.data());
+  console.log(exercises);
 
   return (
     <main>
@@ -33,17 +42,17 @@ export default function Exercises() {
             <CategoryButton key={category} name={category} />
           ))}
         </div>
-        <div className={"flex flex-col"}>
-          {sortedExerciseList.map((exercise) => (
-            <ExerciseCard
-              key={exercise.name}
-              name={exercise.name}
-              description={exercise.description}
-              img={benchPress.src}
-              primaryMuscle={exercise.primaryMuscle}
-            />
-          ))}
-        </div>
+        {/*<div className={"flex flex-col"}>*/}
+        {/*  {exercises!.map((exercise: any) => (*/}
+        {/*    <ExerciseCard*/}
+        {/*      key={exercise.name}*/}
+        {/*      name={exercise.name}*/}
+        {/*      description={exercise.description}*/}
+        {/*      img={benchPress.src}*/}
+        {/*      primaryMuscle={exercise.primaryMuscle}*/}
+        {/*    />*/}
+        {/*  ))}*/}
+        {/*</div>*/}
 
         <Link
           className="fixed bottom-[30px] left-[50%] -translate-x-1/2 bg-blue-500 hover:bg-blue-700 text-white font-medium p-3 rounded-lg shadow z-20"

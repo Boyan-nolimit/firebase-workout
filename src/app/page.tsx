@@ -5,11 +5,11 @@ import {
   addDoc,
   collection,
   doc,
+  getDocs,
   getFirestore,
   updateDoc,
 } from "@firebase/firestore";
-import { useCollection } from "react-firebase-hooks/firestore";
-import { app, db } from "../../firebase/firebaseApp";
+import { db } from "../../firebase/firebaseApp";
 import { Navigation } from "@/components/Navigation";
 import { Header } from "@/components/Header";
 import exercise from "../../public/exercise.svg";
@@ -17,16 +17,36 @@ import Image from "next/image";
 import add from "../../public/add.svg";
 import { Workout } from "@/components/Workout";
 import exerciseList from "../initialExerciseList.json";
+import { useEffect, useState } from "react";
+
+function comparePrimaryMuscle(a: any, b: any) {
+  if (a.primaryMuscle < b.primaryMuscle) {
+    return -1;
+  }
+  if (a.primaryMuscle > b.primaryMuscle) {
+    return 1;
+  }
+  return 0;
+}
 
 export default function Home() {
   const { user } = UserAuth();
 
-  const [value, loading, error] = useCollection(
-    collection(getFirestore(app), "exercises"),
-    {},
-  );
+  const [exercises, setExercises]: any = useState([]);
+  const getExercises = async () => {
+    if (user) {
+      const exercisesCollection = collection(db, `users/${user.uid}/exercises`);
+      const exercisesSnapshot = await getDocs(exercisesCollection);
+      const exerciseList = exercisesSnapshot.docs.map((doc) => doc.data());
+      return exerciseList;
+    }
+  };
 
-  const exercises = value?.docs.map((doc) => doc.data());
+  useEffect(() => {
+    getExercises().then((r) => setExercises(r));
+  }, []);
+
+  console.log("list", exercises);
 
   // add an exercise to the user's collection
   const addExercise = async () => {

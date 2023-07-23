@@ -9,6 +9,7 @@ import {
 } from "@firebase/auth";
 import { auth, db } from "./firebaseApp";
 import { addDoc, collection, doc, setDoc } from "@firebase/firestore";
+import exerciseList from "../src/initialExerciseList.json";
 
 interface AuthContextProps {
   user: any;
@@ -25,29 +26,6 @@ interface AuthContextProviderProps {
   children: React.ReactNode;
 }
 
-const exercises = [
-  {
-    name: "Bench Press",
-    primaryMuscle: "Chest",
-  },
-  {
-    name: "Squat",
-    primaryMuscle: "Legs",
-  },
-  {
-    name: "Deadlift",
-    primaryMuscle: "Back",
-  },
-  {
-    name: "Pull Ups",
-    primaryMuscle: "Back",
-  },
-  {
-    name: "Overhead Press",
-    primaryMuscle: "Shoulders",
-  },
-];
-
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [user, setUser]: any = useState(null);
 
@@ -61,7 +39,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       );
       // if new user then create a user ref and add the exercises
       if (getAdditionalUserInfo(result)?.isNewUser) {
-        exercises.forEach((exercise) => {
+        exerciseList.forEach((exercise) => {
           addDoc(exercisesCollection, exercise);
         });
         setDoc(userRef, {
