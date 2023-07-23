@@ -32,7 +32,7 @@ export const Header = ({ name, icon, hideProfile }: TitleProps) => {
   return (
     <div
       className={
-        "flex mb-5 items-center bg-white w-[420px] -ml-5 px-5 h-[60px] -mt-5 fixed drop-shadow-sm z-10"
+        "flex mb-5 items-center bg-white w-full max-w-[420px] -ml-5 px-5 h-[60px] -mt-5 fixed drop-shadow-sm z-10"
       }
     >
       <div className={"flex flex-1 gap-2.5"}>
