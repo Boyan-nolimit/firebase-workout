@@ -17,10 +17,11 @@ const getBgColor = (name: string) => {
 
 interface CategoryButtonProps {
   name: string;
+  onClick: () => void;
 }
-export const CategoryButton = ({ name }: CategoryButtonProps) => {
+export const CategoryButton = ({ name, onClick }: CategoryButtonProps) => {
   return (
-    <button className={"flex flex-col items-center flex-1"}>
+    <button className={"flex flex-col items-center flex-1"} onClick={onClick}>
       <div className={`h-12 w-12 rounded-lg ${getBgColor(name)}`} />
       <p className={"text-sm text-center"}>{name}</p>
     </button>

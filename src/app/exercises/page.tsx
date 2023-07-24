@@ -6,29 +6,36 @@ import list from "../../../public/format_list_bulleted.svg";
 import { Header } from "@/components/Header";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  useCollection,
-  useCollectionOnce,
-} from "react-firebase-hooks/firestore";
+import { useCollectionOnce } from "react-firebase-hooks/firestore";
 import { collection, getFirestore } from "@firebase/firestore";
 import { app, auth } from "../../../firebase/firebaseApp";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { ExerciseCard } from "@/components/ExerciseCard";
 import benchPress from "../../../public/bench-press.png";
 
 const categories = ["Arms", "Back", "Chest", "Legs", "Shoulders"];
 
-export default function Exercises() {
-  const [user, loading, error] = useAuthState(auth);
-  // const [exercises, setExercises]: any = useState([]);
+function comparePrimaryMuscle(a: any, b: any) {
+  if (a.primaryMuscle < b.primaryMuscle) {
+    return -1;
+  }
+  if (a.primaryMuscle > b.primaryMuscle) {
+    return 1;
+  }
+  return 0;
+}
 
-  const [exercisesQuery, exercisesLoading, exercisesError] = useCollectionOnce(
+export default function Exercises() {
+  const [user] = useAuthState(auth);
+
+  const [exercisesQuery] = useCollectionOnce(
     collection(getFirestore(app), `users/${user?.uid}/exercises`),
     {},
   );
-  const exercises = exercisesQuery?.docs.map((doc) => doc.data());
-  console.log(exercises);
+  const exercises = exercisesQuery?.docs
+    .map((doc) => doc.data())
+    .sort(comparePrimaryMuscle);
 
   return (
     <main>
@@ -41,11 +48,14 @@ export default function Exercises() {
         />
         <div className={"flex justify-around mt-5 mb-3"}>
           {categories.map((category) => (
-            <CategoryButton key={category} name={category} />
+            <CategoryButton
+              key={category}
+              name={category}
+              onClick={() => console.log("hi")}
+            />
           ))}
         </div>
-        {exercisesLoading && <p>Loading...</p>}
-        {!exercisesLoading && (
+        {exercises && (
           <div className={"flex flex-col"}>
             {exercises!.map((exercise: any) => (
               <ExerciseCard

@@ -1,12 +1,5 @@
 "use client";
 import Link from "next/link";
-import {
-  addDoc,
-  collection,
-  doc,
-  getFirestore,
-  updateDoc,
-} from "@firebase/firestore";
 import { app, auth, db } from "../../firebase/firebaseApp";
 import { Navigation } from "@/components/Navigation";
 import { Header } from "@/components/Header";
@@ -16,47 +9,9 @@ import add from "../../public/add.svg";
 import { Workout } from "@/components/Workout";
 import exerciseList from "../initialExerciseList.json";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useCollectionOnce } from "react-firebase-hooks/firestore";
-
-function comparePrimaryMuscle(a: any, b: any) {
-  if (a.primaryMuscle < b.primaryMuscle) {
-    return -1;
-  }
-  if (a.primaryMuscle > b.primaryMuscle) {
-    return 1;
-  }
-  return 0;
-}
 
 export default function Home() {
-  // gets the current user
-  const [user, loading, error] = useAuthState(auth);
-
-  // gets the exercise collection (not user's exercises)
-  const [exercises, exercisesLoading, exercisesError] = useCollectionOnce(
-    collection(getFirestore(app), `users/${user?.uid}/exercises`),
-    {},
-  );
-  if (exercises && !exercisesLoading) {
-    console.log(exercises.docs.map((doc) => doc.data()));
-  }
-
-  // add an exercise to the user's collection
-  // const addExercise = async () => {
-  //   const exercisesCollection = collection(db, `users/${user.uid}/exercises`);
-  //   await addDoc(exercisesCollection, {
-  //     name: "Overhead Press",
-  //     primaryMuscle: "Shoulders",
-  //   });
-  // };
-
-  // update an exercise in the collection
-  const updateExercise = async () => {
-    const exerciseRef = doc(db, "exercises", "test");
-    await updateDoc(exerciseRef, {
-      primaryMuscle: "Back",
-    });
-  };
+  const [user, loading] = useAuthState(auth);
 
   return (
     <main>

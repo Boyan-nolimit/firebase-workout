@@ -4,6 +4,7 @@ import add from "../../../public/add.svg";
 import { ExerciseCard } from "@/components/ExerciseCard";
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function AddWorkout() {
   return (
@@ -28,14 +29,17 @@ export default function AddWorkout() {
           primaryMuscle={"Legs"}
         />
 
-        <button className={"flex gap-3 my-2 items-center"}>
+        <Link
+          className={"flex gap-3 my-2 items-center"}
+          href={"/select-workout-exercises"}
+        >
           <div
             className={`h-[66px] w-[66px] flex items-center justify-center rounded-lg border-[2.5px] bg-blue-500`}
           >
             <Image src={add} alt={"add"} />
           </div>
           <h2 className={"text-md font-bold"}>Add Exercise</h2>
-        </button>
+        </Link>
 
         <input
           type={"submit"}
