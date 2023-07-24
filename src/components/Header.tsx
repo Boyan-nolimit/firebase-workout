@@ -1,10 +1,11 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { UserAuth } from "../../firebase/authContext";
 import arrowBack from "../../public/arrow_back.svg";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../firebase/firebaseApp";
 
 interface TitleProps {
   name: string;
@@ -12,10 +13,11 @@ interface TitleProps {
   hideProfile?: boolean;
 }
 export const Header = ({ name, icon, hideProfile }: TitleProps) => {
-  const { user } = UserAuth();
+  const [user, loading]: any = useAuthState(auth);
   const router = useRouter();
 
   const showProfile = () => {
+    if (loading) return <p>Loading...</p>;
     if (user && !hideProfile) {
       return (
         <Link href={"/profile"}>

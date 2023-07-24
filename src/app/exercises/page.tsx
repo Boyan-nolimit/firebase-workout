@@ -12,14 +12,11 @@ import Link from "next/link";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { collection, getFirestore } from "@firebase/firestore";
 import { app } from "../../../firebase/firebaseApp";
-import { UserAuth } from "../../../firebase/authContext";
 import { useEffect, useState } from "react";
 
 const categories = ["Arms", "Back", "Chest", "Legs", "Shoulders"];
 
 export default function Exercises() {
-  const { user } = UserAuth();
-
   return (
     <main>
       <Navigation activeTab={"exercises"} />

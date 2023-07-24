@@ -1,15 +1,22 @@
 "use client";
 import Link from "next/link";
-import { UserAuth } from "../../../firebase/authContext";
 import { Header } from "@/components/Header";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../../firebase/firebaseApp";
+import { signOut } from "@firebase/auth";
+
+const logOut = async () => {
+  await signOut(auth);
+};
 
 export default function Profile() {
-  const { user, logOut } = UserAuth();
+  const [user, loading]: any = useAuthState(auth);
 
   return (
     <main>
       <Header name={"Profile"} hideProfile />
       <div className={"py-16 flex flex-col gap-8"}>
+        {loading && <p>Loading...</p>}
         {user && (
           <div className="flex flex-col items-center justify-center gap-6">
             <h2 className="text-2xl font-bold text-center">Welcome</h2>

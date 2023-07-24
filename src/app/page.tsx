@@ -1,15 +1,13 @@
 "use client";
 import Link from "next/link";
-import { UserAuth } from "../../firebase/authContext";
 import {
   addDoc,
   collection,
   doc,
-  getDocs,
   getFirestore,
   updateDoc,
 } from "@firebase/firestore";
-import { db } from "../../firebase/firebaseApp";
+import { app, auth, db } from "../../firebase/firebaseApp";
 import { Navigation } from "@/components/Navigation";
 import { Header } from "@/components/Header";
 import exercise from "../../public/exercise.svg";
@@ -17,7 +15,8 @@ import Image from "next/image";
 import add from "../../public/add.svg";
 import { Workout } from "@/components/Workout";
 import exerciseList from "../initialExerciseList.json";
-import { useEffect, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useCollectionOnce } from "react-firebase-hooks/firestore";
 
 function comparePrimaryMuscle(a: any, b: any) {
   if (a.primaryMuscle < b.primaryMuscle) {
@@ -30,32 +29,23 @@ function comparePrimaryMuscle(a: any, b: any) {
 }
 
 export default function Home() {
-  const { user } = UserAuth();
+  // gets the current user
+  const [user, loading, error] = useAuthState(auth);
 
-  const [exercises, setExercises]: any = useState([]);
-  const getExercises = async () => {
-    if (user) {
-      const exercisesCollection = collection(db, `users/${user.uid}/exercises`);
-      const exercisesSnapshot = await getDocs(exercisesCollection);
-      const exerciseList = exercisesSnapshot.docs.map((doc) => doc.data());
-      return exerciseList;
-    }
-  };
-
-  useEffect(() => {
-    getExercises().then((r) => setExercises(r));
-  }, []);
-
-  console.log("list", exercises);
+  // gets the exercise collection (not user's exercises)
+  const [exercises, exercisesLoading, exercisesError] = useCollectionOnce(
+    collection(getFirestore(app), "exercises"),
+    {},
+  );
 
   // add an exercise to the user's collection
-  const addExercise = async () => {
-    const exercisesCollection = collection(db, `users/${user.uid}/exercises`);
-    await addDoc(exercisesCollection, {
-      name: "Overhead Press",
-      primaryMuscle: "Shoulders",
-    });
-  };
+  // const addExercise = async () => {
+  //   const exercisesCollection = collection(db, `users/${user.uid}/exercises`);
+  //   await addDoc(exercisesCollection, {
+  //     name: "Overhead Press",
+  //     primaryMuscle: "Shoulders",
+  //   });
+  // };
 
   // update an exercise in the collection
   const updateExercise = async () => {

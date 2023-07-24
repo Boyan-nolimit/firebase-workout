@@ -1,7 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { AuthContextProvider } from "../../firebase/authContext";
 import React from "react";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -19,17 +18,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AuthContextProvider>
-          <div className={"bg-black flex justify-center"}>
-            <div
-              className={
-                "bg-white max-w-[420px] w-full flex flex-1 min-h-screen flex-col p-5 bg-gray-50"
-              }
-            >
-              {children}
-            </div>
+        <div className={"bg-black flex justify-center"}>
+          <div
+            className={
+              "bg-white max-w-[420px] w-full flex flex-1 min-h-screen flex-col p-5 bg-gray-50"
+            }
+          >
+            {children}
           </div>
-        </AuthContextProvider>
+        </div>
       </body>
     </html>
   );
