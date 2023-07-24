@@ -1,22 +1,35 @@
 "use client";
 import { Navigation } from "@/components/Navigation";
-import { ExerciseCard } from "@/components/ExerciseCard";
-import benchPress from "../../../public/bench-press.png";
-import exerciseList from "../../initialExerciseList.json";
 import add from "../../../public/add.svg";
 import { CategoryButton } from "@/components/CategoryButton";
 import list from "../../../public/format_list_bulleted.svg";
 import { Header } from "@/components/Header";
 import Image from "next/image";
 import Link from "next/link";
-import { useCollection } from "react-firebase-hooks/firestore";
+import {
+  useCollection,
+  useCollectionOnce,
+} from "react-firebase-hooks/firestore";
 import { collection, getFirestore } from "@firebase/firestore";
-import { app } from "../../../firebase/firebaseApp";
-import { useEffect, useState } from "react";
+import { app, auth } from "../../../firebase/firebaseApp";
+import React, { useEffect, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { ExerciseCard } from "@/components/ExerciseCard";
+import benchPress from "../../../public/bench-press.png";
 
 const categories = ["Arms", "Back", "Chest", "Legs", "Shoulders"];
 
 export default function Exercises() {
+  const [user, loading, error] = useAuthState(auth);
+  // const [exercises, setExercises]: any = useState([]);
+
+  const [exercisesQuery, exercisesLoading, exercisesError] = useCollectionOnce(
+    collection(getFirestore(app), `users/${user?.uid}/exercises`),
+    {},
+  );
+  const exercises = exercisesQuery?.docs.map((doc) => doc.data());
+  console.log(exercises);
+
   return (
     <main>
       <Navigation activeTab={"exercises"} />
@@ -31,17 +44,20 @@ export default function Exercises() {
             <CategoryButton key={category} name={category} />
           ))}
         </div>
-        {/*<div className={"flex flex-col"}>*/}
-        {/*  {exercises!.map((exercise: any) => (*/}
-        {/*    <ExerciseCard*/}
-        {/*      key={exercise.name}*/}
-        {/*      name={exercise.name}*/}
-        {/*      description={exercise.description}*/}
-        {/*      img={benchPress.src}*/}
-        {/*      primaryMuscle={exercise.primaryMuscle}*/}
-        {/*    />*/}
-        {/*  ))}*/}
-        {/*</div>*/}
+        {exercisesLoading && <p>Loading...</p>}
+        {!exercisesLoading && (
+          <div className={"flex flex-col"}>
+            {exercises!.map((exercise: any) => (
+              <ExerciseCard
+                key={exercise.name}
+                name={exercise.name}
+                description={exercise.description}
+                img={benchPress.src}
+                primaryMuscle={exercise.primaryMuscle}
+              />
+            ))}
+          </div>
+        )}
 
         <Link
           className="fixed bottom-[30px] left-[50%] -translate-x-1/2 bg-blue-500 hover:bg-blue-700 text-white font-medium p-3 rounded-lg shadow z-20"

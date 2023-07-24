@@ -34,9 +34,12 @@ export default function Home() {
 
   // gets the exercise collection (not user's exercises)
   const [exercises, exercisesLoading, exercisesError] = useCollectionOnce(
-    collection(getFirestore(app), "exercises"),
+    collection(getFirestore(app), `users/${user?.uid}/exercises`),
     {},
   );
+  if (exercises && !exercisesLoading) {
+    console.log(exercises.docs.map((doc) => doc.data()));
+  }
 
   // add an exercise to the user's collection
   // const addExercise = async () => {
