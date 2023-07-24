@@ -65,7 +65,8 @@ export default function Home() {
       >
         <Image src={add} alt={"add exercise icon"} height={36} width={36} />
       </Link>
-      {user ? (
+      {loading && <div>loading...</div>}
+      {user && !loading ? (
         <div className={"py-16 flex flex-col"}>
           <Workout name={"Workout 1"} exerciseList={exerciseList.slice(1, 4)} />
           <Workout
