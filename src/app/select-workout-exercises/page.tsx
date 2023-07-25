@@ -110,12 +110,13 @@ export default function SelectWorkoutExercises() {
           className="fixed w-full max-w-[380px] bottom-[30px] left-[50%] -translate-x-1/2 bg-blue-500 hover:bg-blue-700 text-white text-center font-medium p-3 rounded-lg shadow z-20"
           href={"/add-workout"}
           onClick={() => {
-            sessionStorage.setItem(
-              "selectedExercises",
-              sessionStorage.getItem("selectedExercises") +
-                "," +
-                selectedExercises,
-            );
+            typeof window !== "undefined" &&
+              sessionStorage.setItem(
+                "selectedExercises",
+                sessionStorage.getItem("selectedExercises") +
+                  "," +
+                  selectedExercises,
+              );
           }}
         >
           Add selected exercises

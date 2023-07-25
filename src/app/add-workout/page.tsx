@@ -26,7 +26,8 @@ export default function AddWorkout() {
 
   const [user] = useAuthState(auth);
   const [selectedExercises, setSelectedExercises] = useState(
-    sessionStorage.getItem("selectedExercises")?.split(","),
+    typeof window !== "undefined" &&
+      sessionStorage.getItem("selectedExercises")?.split(","),
   );
   const [error, setError] = useState("");
   const [name, setName] = useState("");
@@ -37,10 +38,11 @@ export default function AddWorkout() {
         (exercise) => exercise !== id,
       );
       setSelectedExercises(newSelectedExercises);
-      sessionStorage.setItem(
-        "selectedExercises",
-        newSelectedExercises.join(","),
-      );
+      typeof window !== "undefined" &&
+        sessionStorage.setItem(
+          "selectedExercises",
+          newSelectedExercises.join(","),
+        );
     }
   };
 
@@ -104,7 +106,8 @@ export default function AddWorkout() {
           type={"submit"}
           onClick={() => {
             addWorkout().then(() => router.replace("/"));
-            sessionStorage.removeItem("selectedExercises");
+            typeof window !== "undefined" &&
+              sessionStorage.removeItem("selectedExercises");
           }}
           className="fixed w-full max-w-[380px] hover:cursor-pointer bottom-[30px] left-[50%] -translate-x-1/2 bg-blue-500 hover:bg-blue-700 text-white font-medium p-3 rounded-lg shadow z-20"
         >
