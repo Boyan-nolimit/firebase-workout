@@ -1,4 +1,6 @@
 import React from "react";
+import Image from "next/image";
+import deleteIcon from "../../public/delete.svg";
 
 const getOutlineColor = (primaryMuscle: string) => {
   switch (primaryMuscle) {
@@ -20,6 +22,7 @@ export interface ExerciseCardProps {
   img: string;
   description: string;
   primaryMuscle: string;
+  onClick?: () => void;
 }
 
 export const ExerciseCard = ({
@@ -27,6 +30,7 @@ export const ExerciseCard = ({
   img,
   description,
   primaryMuscle,
+  onClick,
 }: ExerciseCardProps) => {
   return (
     <div className={"flex gap-3 my-2"}>
@@ -38,7 +42,14 @@ export const ExerciseCard = ({
         <img src={img} alt="bench press" className={"h-14 w-14 rounded-lg"} />
       </div>
       <div className={"flex flex-col flex-1"}>
-        <h2 className={"text-md font-bold"}>{name}</h2>
+        <div className={"flex"}>
+          <h2 className={"flex flex-1 text-md font-bold"}>{name}</h2>
+          {onClick && (
+            <button onClick={onClick}>
+              <Image src={deleteIcon} alt={"Delete"} height={18} width={18} />
+            </button>
+          )}
+        </div>
         <p className={"text-xs line-clamp-2 pr-2"}>{description}</p>
       </div>
     </div>

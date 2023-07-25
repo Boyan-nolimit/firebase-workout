@@ -2,12 +2,12 @@ import React from "react";
 import Image from "next/image";
 import edit from "../../public/edit.svg";
 import benchPress from "../../public/bench-press.png";
-import { ExerciseCard, ExerciseCardProps } from "@/components/ExerciseCard";
+import { ExerciseCard } from "@/components/ExerciseCard";
 import Link from "next/link";
 
 interface WorkoutProps {
   name: string;
-  exerciseList: ExerciseCardProps[];
+  exerciseList: any[];
 }
 
 export const Workout = ({ name, exerciseList }: WorkoutProps) => {

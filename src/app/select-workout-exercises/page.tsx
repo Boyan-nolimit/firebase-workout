@@ -1,8 +1,6 @@
 "use client";
-import add from "../../../public/add.svg";
 import { CategoryButton } from "@/components/CategoryButton";
 import { Header } from "@/components/Header";
-import Image from "next/image";
 import Link from "next/link";
 import { useCollectionOnce } from "react-firebase-hooks/firestore";
 import { collection, getFirestore } from "@firebase/firestore";
@@ -109,10 +107,18 @@ export default function SelectWorkoutExercises() {
         )}
 
         <Link
-          className="fixed bottom-[30px] left-[50%] -translate-x-1/2 bg-blue-500 hover:bg-blue-700 text-white font-medium p-3 rounded-lg shadow z-20"
-          href={"/create-exercise"}
+          className="fixed w-full max-w-[380px] bottom-[30px] left-[50%] -translate-x-1/2 bg-blue-500 hover:bg-blue-700 text-white text-center font-medium p-3 rounded-lg shadow z-20"
+          href={"/add-workout"}
+          onClick={() => {
+            sessionStorage.setItem(
+              "selectedExercises",
+              sessionStorage.getItem("selectedExercises") +
+                "," +
+                selectedExercises,
+            );
+          }}
         >
-          <Image src={add} alt={"add exercise icon"} height={36} width={36} />
+          Add selected exercises
         </Link>
       </div>
     </main>
