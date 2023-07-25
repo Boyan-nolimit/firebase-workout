@@ -26,8 +26,9 @@ export default function AddWorkout() {
 
   const [user] = useAuthState(auth);
   const [selectedExercises, setSelectedExercises] = useState(
-    typeof window !== "undefined" &&
-      sessionStorage.getItem("selectedExercises")?.split(","),
+    typeof window !== "undefined"
+      ? sessionStorage.getItem("selectedExercises")?.split(",")
+      : [],
   );
   const [error, setError] = useState("");
   const [name, setName] = useState("");
