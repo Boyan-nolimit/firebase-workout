@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
 import edit from "../../public/edit.svg";
-import benchPress from "../../public/bench-press.png";
 import { ExerciseCard } from "@/components/ExerciseCard";
 import Link from "next/link";
 
@@ -23,7 +22,7 @@ export const Workout = ({ name, exerciseList }: WorkoutProps) => {
         <ExerciseCard
           key={exercise.name}
           name={exercise.name}
-          img={benchPress.src}
+          img={exercise.img}
           description={exercise.description}
           primaryMuscle={exercise.primaryMuscle}
         />

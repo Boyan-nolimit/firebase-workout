@@ -1,7 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { Header } from "@/components/Header";
-import benchPress from "../../../public/bench-press.png";
 import add from "../../../public/add.svg";
 import { ExerciseCard } from "@/components/ExerciseCard";
 import React, { useState } from "react";
@@ -83,7 +82,7 @@ export default function AddWorkout() {
           <ExerciseCard
             key={exercise.id}
             name={exercise.data().name}
-            img={benchPress.src}
+            img={exercise.data().img}
             description={exercise.data().description}
             primaryMuscle={exercise.data().primaryMuscle}
             onClick={() => removeSelectedExercise(exercise.id)}

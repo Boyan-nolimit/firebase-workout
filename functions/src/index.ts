@@ -25,6 +25,7 @@ export const createUserDocument = functions.auth.user().onCreate((user) => {
       description: exercise.description,
       primaryMuscle: exercise.primaryMuscle,
       secondary: exercise.secondary,
+      img: exercise.img,
     });
   });
   batch.commit();

@@ -3,4 +3,5 @@ export interface Exercise {
   description: string;
   primaryMuscle: string;
   secondary: string;
+  img?: string;
 }

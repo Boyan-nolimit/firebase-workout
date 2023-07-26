@@ -6,13 +6,12 @@ import list from "../../../public/format_list_bulleted.svg";
 import { Header } from "@/components/Header";
 import Image from "next/image";
 import Link from "next/link";
-import { useCollectionOnce } from "react-firebase-hooks/firestore";
+import { useCollection } from "react-firebase-hooks/firestore";
 import { collection, getFirestore } from "@firebase/firestore";
 import { app, auth } from "../../../firebase/firebaseApp";
-import React from "react";
+import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { ExerciseCard } from "@/components/ExerciseCard";
-import benchPress from "../../../public/bench-press.png";
 
 const categories = ["Arms", "Back", "Chest", "Legs", "Shoulders"];
 
@@ -28,14 +27,34 @@ function comparePrimaryMuscle(a: any, b: any) {
 
 export default function Exercises() {
   const [user] = useAuthState(auth);
+  const [selectedCategory, setSelectedCategory]: any = useState(null);
 
-  const [exercisesQuery] = useCollectionOnce(
+  const [exercisesQuery] = useCollection(
     collection(getFirestore(app), `users/${user?.uid}/exercises`),
     {},
   );
   const exercises = exercisesQuery?.docs
     .map((doc) => doc.data())
     .sort(comparePrimaryMuscle);
+
+  const filterExercisesByPrimary = (exercises: any[], primary: string) => {
+    if (exercises) {
+      if (primary === null) return exercises;
+      return exercises.filter((exercise) => {
+        return exercise.primaryMuscle === primary;
+      });
+    }
+    return [];
+  };
+
+  // handles selecting and deselecting a category
+  const handleCategoryClick = (category: string) => {
+    if (selectedCategory === category) {
+      setSelectedCategory(null);
+    } else {
+      setSelectedCategory(category);
+    }
+  };
 
   return (
     <main>
@@ -51,21 +70,23 @@ export default function Exercises() {
             <CategoryButton
               key={category}
               name={category}
-              onClick={() => console.log("hi")}
+              onClick={() => handleCategoryClick(category)}
             />
           ))}
         </div>
         {exercises && (
           <div className={"flex flex-col"}>
-            {exercises!.map((exercise: any) => (
-              <ExerciseCard
-                key={exercise.name}
-                name={exercise.name}
-                description={exercise.description}
-                img={benchPress.src}
-                primaryMuscle={exercise.primaryMuscle}
-              />
-            ))}
+            {filterExercisesByPrimary(exercises, selectedCategory).map(
+              (exercise: any) => (
+                <ExerciseCard
+                  key={exercise.name}
+                  name={exercise.name}
+                  description={exercise.description}
+                  img={exercise.img}
+                  primaryMuscle={exercise.primaryMuscle}
+                />
+              ),
+            )}
           </div>
         )}
 

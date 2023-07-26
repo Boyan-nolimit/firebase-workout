@@ -39,7 +39,11 @@ export const ExerciseCard = ({
           primaryMuscle,
         )}`}
       >
-        <img src={img} alt="bench press" className={"h-14 w-14 rounded-lg"} />
+        <img
+          src={img}
+          alt={name}
+          className={"h-14 w-14 rounded-lg object-contain"}
+        />
       </div>
       <div className={"flex flex-col flex-1"}>
         <div className={"flex"}>
